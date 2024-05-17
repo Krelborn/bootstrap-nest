@@ -1,0 +1,38 @@
+.sandbox {
+  // Define the prefix to use for variables instead of "bs-" so we can't clash with bootstrap
+  $prefix: "sandbox-";
+
+  // Define some fugly colors for testing
+  $primary: green;
+  $info: orange;
+  $danger: violet;
+
+  // Import bootstrap SASS which will cause SASS to compile the bootstrap CSS embedded in
+  // the sandbox class scope.
+  @import "bootstrap/scss/bootstrap";
+
+  // Define a root class that matches the bootstrap body element in _reboot.scss. Use this on
+  // the first child of the sandbox class element to reset the styles.
+  .sandbox-root {
+    margin: 0; // 1
+    font-family: var(--#{$prefix}body-font-family);
+    @include font-size(var(--#{$prefix}body-font-size));
+    font-weight: var(--#{$prefix}body-font-weight);
+    line-height: var(--#{$prefix}body-line-height);
+    color: var(--#{$prefix}body-color);
+    text-align: var(--#{$prefix}body-text-align);
+    background-color: var(--#{$prefix}body-bg); // 2
+    -webkit-text-size-adjust: 100%; // 3
+    -webkit-tap-highlight-color: rgba($black, 0); // 4
+  }
+}
+
+// Trick to get bootstrap variables defined under root to scope to the sandbox
+:root * {
+  @extend :root;
+}
+
+// This won't work if it's not used inside the sandbox scope
+.outside-sandbox {
+  background-color: var(--sandbox-primary);
+}
